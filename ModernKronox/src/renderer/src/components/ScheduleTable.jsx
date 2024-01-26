@@ -4,26 +4,26 @@ import React from 'react'
 
 function ScheduleTable({ data }) {
   return (
-    <table className="min-w-full">
-      <thead>
+    <table className="w-full text-left border-collapse border border-gray-700">
+      <thead className="bg-gray-700">
         <tr>
-          <th>Day</th>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Course Group</th>
-          <th>Location</th>
-          <th>Topic</th>
+          <th className="border border-gray-600 p-2">Day</th>
+          <th className="border border-gray-600 p-2">Date</th>
+          <th className="border border-gray-600 p-2">Time</th>
+          <th className="border border-gray-600 p-2">Course Group</th>
+          <th className="border border-gray-600 p-2">Location</th>
+          <th className="border border-gray-600 p-2">Topic</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className="bg-gray-800">
         {data.map((item, index) => (
-          <tr key={index}>
-            <td>{item.dag}</td>
-            <td>{item.datum}</td>
-            <td>{item.startSlut}</td>
-            <td>{item.kursGrp}</td>
-            <td>{item.lokal}</td>
-            <td>{item.moment}</td>
+          <tr key={index} className="hover:bg-gray-700">
+            <td className="border border-gray-700 p-2">{item.dag}</td>
+            <td className="border border-gray-700 p-2">{item.datum}</td>
+            <td className="border border-gray-700 p-2">{item.startSlut}</td>
+            <td className="border border-gray-700 p-2">{item.kursGrp}</td>
+            <td className="border border-gray-700 p-2">{item.lokal}</td>
+            <td className="border border-gray-700 p-2">{item.moment}</td>
           </tr>
         ))}
       </tbody>

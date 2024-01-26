@@ -25,9 +25,9 @@ function App() {
   }
 
   return (
-    <div className="App bg-gray-800 min-h-screen flex items-center justify-center">
-      <div className="text-white">
-        <h1 className="text-3xl font-bold mb-4">ModernKronox</h1>
+    <div className="App bg-gray-900 min-h-screen flex flex-col items-center justify-center p-4">
+      <h1 className="text-4xl font-bold text-white mb-8">ModernKronox</h1>
+      <div className="flex space-x-4 mb-6">
         <button
           onClick={handleClick}
           className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
@@ -46,10 +46,13 @@ function App() {
         >
           Test 3
         </button>
+      </div>
+      <div className="w-full max-w-4xl">
         <ScheduleTable data={tableData} />
       </div>
     </div>
   )
+
 }
 
 export default App

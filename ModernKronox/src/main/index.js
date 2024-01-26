@@ -79,8 +79,16 @@ app.on('window-all-closed', () => {
 // Fetch data from Schema.mau.se
 ipcMain.on('perform-action', async (event, arg) => {
   try {
+    // prod-test
+    /*
     const response = await fetch(
       'https://schema.mau.se/setup/jsp/Schema.jsp?startDatum=today&intervallTyp=m&intervallAntal=6&sprak=EN&sokMedAND=true&forklaringar=true&resurser=p.TGIAA22h'
+    )
+    */
+
+    // testing
+    const response = await fetch(
+      'https://schema.mau.se/setup/jsp/Schema.jsp?startDatum=today&slutDatum=2024-01-31&sprak=EN&sokMedAND=true&forklaringar=true&resurser=p.TGIAA22h'
     )
     const buffer = await response.arrayBuffer()
     const body = iconv.decode(buffer, 'utf-8')
