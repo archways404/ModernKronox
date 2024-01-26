@@ -88,7 +88,7 @@ ipcMain.on('perform-action', async (event, arg) => {
 
     // testing
     const response = await fetch(
-      'https://schema.mau.se/setup/jsp/Schema.jsp?startDatum=today&slutDatum=2024-01-31&sprak=EN&sokMedAND=true&forklaringar=true&resurser=p.TGIAA22h'
+      'https://schema.mau.se/setup/jsp/Schema.jsp?startDatum=today&slutDatum=2024-02-31&sprak=EN&sokMedAND=true&forklaringar=true&resurser=p.TGIAA22h'
     )
     const buffer = await response.arrayBuffer()
     const body = iconv.decode(buffer, 'utf-8')
