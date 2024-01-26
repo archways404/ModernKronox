@@ -69,41 +69,54 @@ const rawData = [
 ]
 
 const validDays = ['Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör', 'Sön']
-
 const dateRegex = /^\d{1,2}\s(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)$/
+const timeRegex = /^\d{1,2}:\d{2}-\d{1,2}:\d{2}$/
 
 const scheduleEntries = []
-let currentEntry = {}
-let entryFieldIndex = 0 // To keep track of the current field in an entry
+let currentEntry = { day: '', date: '', time: '', courseTitle: '' }
+let lastDay = ''
+let lastDate = ''
+let lastProcessedType = ''
 
 rawData.forEach((item) => {
   const trimmedItem = item.trim()
 
+  // Process day
   if (validDays.includes(trimmedItem)) {
     if (currentEntry.day) {
       scheduleEntries.push(currentEntry)
     }
-    currentEntry = { day: trimmedItem }
-    entryFieldIndex = 1
-  } else if (currentEntry.day) {
-    switch (entryFieldIndex) {
-      case 1:
-        if (dateRegex.test(trimmedItem)) {
-          currentEntry.date = trimmedItem
-        } else {
-          console.warn(`Invalid date format: ${trimmedItem}`)
-        }
-        break
-      case 2:
-        currentEntry.time = trimmedItem
-        break
-      // ... other cases ...
+    lastDay = trimmedItem
+    lastDate = ''
+    currentEntry = { day: trimmedItem, date: '', time: '', courseTitle: '' }
+    lastProcessedType = 'day'
+  }
+  // Process date
+  else if (dateRegex.test(trimmedItem)) {
+    lastDate = trimmedItem
+    currentEntry.date = trimmedItem
+    lastProcessedType = 'date'
+  }
+  // Process time
+  else if (timeRegex.test(trimmedItem)) {
+    if (currentEntry.time) {
+      // If there's already a time for the current entry, push it and start a new entry
+      scheduleEntries.push(currentEntry)
+      currentEntry = { day: lastDay, date: lastDate, time: trimmedItem, courseTitle: '' }
+    } else {
+      currentEntry.time = trimmedItem
     }
-    entryFieldIndex++
+    lastProcessedType = 'time'
+  }
+  // Process course title
+  else if (lastProcessedType === 'time') {
+    currentEntry.courseTitle = trimmedItem.split(',')[0].trim()
+    lastProcessedType = 'courseTitle'
   }
 })
 
-if (currentEntry.day) {
+// Check if there's an unprocessed entry after the loop
+if (currentEntry.day && (currentEntry.date || currentEntry.time || currentEntry.courseTitle)) {
   scheduleEntries.push(currentEntry)
 }
 
