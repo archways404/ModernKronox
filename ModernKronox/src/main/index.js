@@ -6,6 +6,7 @@ import icon from '../../resources/icon.png?asset'
 import fetch from 'node-fetch'
 import cheerio from 'cheerio'
 import iconv from 'iconv-lite'
+import ICAL from 'node-ical' // Import the node-ical library
 
 function createWindow() {
   // Create the browser window.
