@@ -71,9 +71,10 @@ const rawData = [
 const validDays = ['Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör', 'Sön']
 const dateRegex = /^\d{1,2}\s(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)$/
 const timeRegex = /^\d{1,2}:\d{2}-\d{1,2}:\d{2}$/
+const roomRegex = /^[A-Z]{2}:[A-Z0-9]+$/
 
 const scheduleEntries = []
-let currentEntry = { day: '', date: '', time: '', courseTitle: '' }
+let currentEntry = { day: '', date: '', time: '', courseTitle: '', room: '' }
 let lastDay = ''
 let lastDate = ''
 let lastProcessedType = ''
@@ -88,7 +89,7 @@ rawData.forEach((item) => {
     }
     lastDay = trimmedItem
     lastDate = ''
-    currentEntry = { day: trimmedItem, date: '', time: '', courseTitle: '' }
+    currentEntry = { day: trimmedItem, date: '', time: '', courseTitle: '', room: '' }
     lastProcessedType = 'day'
   }
   // Process date
@@ -102,7 +103,7 @@ rawData.forEach((item) => {
     if (currentEntry.time) {
       // If there's already a time for the current entry, push it and start a new entry
       scheduleEntries.push(currentEntry)
-      currentEntry = { day: lastDay, date: lastDate, time: trimmedItem, courseTitle: '' }
+      currentEntry = { day: lastDay, date: lastDate, time: trimmedItem, courseTitle: '', room: '' }
     } else {
       currentEntry.time = trimmedItem
     }
@@ -112,6 +113,11 @@ rawData.forEach((item) => {
   else if (lastProcessedType === 'time') {
     currentEntry.courseTitle = trimmedItem.split(',')[0].trim()
     lastProcessedType = 'courseTitle'
+  }
+  // Process room
+  else if (lastProcessedType === 'courseTitle' && roomRegex.test(trimmedItem)) {
+    currentEntry.room = trimmedItem
+    lastProcessedType = 'room'
   }
 })
 
